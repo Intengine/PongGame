@@ -31,17 +31,19 @@ public class Paddle {
     }
 
     public void move(boolean up) {
-        int speed = 5;
+        int speed = 15;
 
         if(up) {
-            if(y + height - speed > Pong.pong.height) {
-                y--;
+            if(y - speed > 0) {
+                y -= speed;
             } else {
                 y = 0;
             }
         } else {
-            if(y + speed < Pong.pong.height) {
-                y++;
+            if(y + height - speed < Pong.pong.height) {
+                y += speed;
+            } else {
+                y = Pong.pong.height - height - 15;
             }
         }
     }
