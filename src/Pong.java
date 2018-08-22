@@ -58,9 +58,13 @@ public class Pong implements ActionListener, KeyListener {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
+
+        g.setColor(Color.WHITE);
+        g.setStroke(new BasicStroke(5f));
+        g.drawLine(width / 2, 0, width / 2, height);
 
         player1.render(g);
         player2.render(g);

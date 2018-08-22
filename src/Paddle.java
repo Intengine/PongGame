@@ -7,7 +7,7 @@ public class Paddle {
     public int y;
 
     public int width = 50;
-    public int height = 300;
+    public int height = 250;
 
     public int score;
 
@@ -43,7 +43,7 @@ public class Paddle {
             if(y + height - speed < Pong.pong.height) {
                 y += speed;
             } else {
-                y = Pong.pong.height - height - 15;
+                y = Pong.pong.height - height - 10;
             }
         }
     }
