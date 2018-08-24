@@ -33,12 +33,16 @@ public class Ball {
     }
 
     public void update(Paddle paddle1, Paddle paddle2) {
-        this.x += motionX;
-        this.y += motionY;
+        int speed = 5;
 
-        if(this.x < pong.width && this.x + width > 0 && this.y < pong.height && this.y + height > 0) {
-            if(this.y < 0) {
-                this.y = random.nextInt(4);
+        this.x += motionX * speed;
+        this.y += motionY * speed;
+
+        if(this.y + height > pong.height || this.y < 0) {
+            if(this.motionY < 0) {
+                this.motionY = random.nextInt(4);
+            } else {
+                this.motionY = -random.nextInt(4);
             }
         }
 
