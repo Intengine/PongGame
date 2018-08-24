@@ -64,6 +64,7 @@ public class Ball {
     }
 
     public void spawn() {
+        this.amountOfHits = 0;
         this.x = pong.width / 2 - this.width / 2;
         this.y = pong.height / 2 - this.height / 2;
         this.motionY = -2 + random.nextInt(4);
@@ -81,9 +82,9 @@ public class Ball {
 
     public int checkCollision(Paddle paddle) {
         if(this.x < paddle.x + paddle.width && this.x + width > paddle.x && this.y < paddle.y + paddle.height && this.y + height > paddle.y) {
-            return 1;
-        } else if((paddle.x > x + width && paddle.paddleNumber == 1) || (paddle.x < x && paddle.paddleNumber == 2)) {
-            return 2;
+            return 1; // bounce
+        } else if((paddle.x > x && paddle.paddleNumber == 1) || (paddle.x < x - width && paddle.paddleNumber == 2)) {
+            return 2; // score
         }
 
         return 0; // nothing
