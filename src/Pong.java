@@ -70,10 +70,14 @@ public class Pong implements ActionListener, KeyListener {
         if(gameStatus == 0) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 70));
-            g.drawString("PONG", width / 2 - 15, 70);
+            g.drawString("PONG", width / 2 - 100, 150);
+
+            g.setFont(new Font("Arial", 1, 30));
+            g.drawString("Press SPACE to play", width / 2 - 150, height / 2 - 50);
+            g.drawString("Press SHIFT to play with computer", width / 2 - 250, height / 2 - 10);
         }
 
-        if(gameStatus == 2) {
+        if(gameStatus == 2 || gameStatus == 1) {
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(5f));
             g.drawLine(width / 2, 0, width / 2, height);
@@ -81,6 +85,12 @@ public class Pong implements ActionListener, KeyListener {
             player1.render(g);
             player2.render(g);
             ball.render(g);
+        }
+
+        if(gameStatus == 1) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", 1, 70));
+            g.drawString("PAUSED", width / 2 - 15, height / 2 - 70);
         }
     }
 
@@ -119,6 +129,21 @@ public class Pong implements ActionListener, KeyListener {
 
         if(id == KeyEvent.VK_DOWN) {
             down = true;
+        }
+
+        if(id == KeyEvent.VK_SHIFT && gameStatus == 0) {
+            bot = true;
+        }
+
+        if(id == KeyEvent.VK_SPACE) {
+            if(gameStatus == 0) {
+                gameStatus = 2;
+                bot = false;
+            } else if(gameStatus == 1) {
+                gameStatus = 2;
+            } else if(gameStatus == 2) {
+                gameStatus = 1;
+            }
         }
     }
 
