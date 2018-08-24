@@ -28,11 +28,21 @@ public class Ball {
         this.x += motionX * speed;
         this.y += motionY * speed;
 
-        if(this.y + height > pong.height || this.y < 0) {
+        if(this.y + height - motionY > pong.height || this.y + motionY < 0) {
             if(this.motionY < 0) {
+                this.y = 0;
                 this.motionY = random.nextInt(4);
+
+                if(motionY == 0) {
+                    motionY = 1;
+                }
             } else {
                 this.motionY = -random.nextInt(4);
+                this.y = pong.height - height;
+
+                if(motionY == 0) {
+                    motionY = -1;
+                }
             }
         }
 

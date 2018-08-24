@@ -82,6 +82,7 @@ public class Pong implements ActionListener, KeyListener {
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(5f));
             g.drawLine(width / 2, 0, width / 2, height);
+            g.drawOval(width / 2 - 50, height / 2 - 50, 100, 100);
 
             g.setFont(new Font("Arial", 1, 70));
             g.drawString(String.valueOf(player1.score), width / 2 - 150, 150);
