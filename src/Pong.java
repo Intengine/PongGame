@@ -11,6 +11,7 @@ public class Pong implements ActionListener, KeyListener {
 
     public Paddle player1;
     public Paddle player2;
+    public Ball ball;
 
     public boolean bot = false;
     public boolean w, s, up, down;
@@ -38,6 +39,7 @@ public class Pong implements ActionListener, KeyListener {
     public void start() {
         player1 = new Paddle(this, 1);
         player2 = new Paddle(this, 2);
+        ball = new Ball(this);
     }
 
     public void update() {
@@ -68,6 +70,7 @@ public class Pong implements ActionListener, KeyListener {
 
         player1.render(g);
         player2.render(g);
+        ball.render(g);
     }
 
     @Override
