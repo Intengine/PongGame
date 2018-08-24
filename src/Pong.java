@@ -19,13 +19,15 @@ public class Pong implements ActionListener, KeyListener {
     public int width = 700;
     public int height = 700;
 
+    public int gameStatus = 0; // 0 - stopped, 1 - paused, 2 - playing
+
     public Pong() {
         Timer timer = new Timer(20, this);
 
         JFrame jframe = new JFrame("Pong");
         renderer = new Renderer();
 
-        jframe.setSize(width + 15, height);
+        jframe.setSize(width + 15, height + 35);
         jframe.setVisible(true);
         jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
         jframe.add(renderer);
@@ -63,19 +65,31 @@ public class Pong implements ActionListener, KeyListener {
     public void render(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g.setColor(Color.WHITE);
-        g.setStroke(new BasicStroke(5f));
-        g.drawLine(width / 2, 0, width / 2, height);
+        if(gameStatus == 0) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", 1, 70));
+            g.drawString("PONG", width / 2 - 15, 70);
+        }
 
-        player1.render(g);
-        player2.render(g);
-        ball.render(g);
+        if(gameStatus == 2) {
+            g.setColor(Color.WHITE);
+            g.setStroke(new BasicStroke(5f));
+            g.drawLine(width / 2, 0, width / 2, height);
+
+            player1.render(g);
+            player2.render(g);
+            ball.render(g);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        update();
+        if(gameStatus == 2) {
+            update();
+        }
+
         renderer.repaint();
     }
 

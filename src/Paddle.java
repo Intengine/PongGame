@@ -43,7 +43,7 @@ public class Paddle {
             if(y + height - speed < Pong.pong.height) {
                 y += speed;
             } else {
-                y = Pong.pong.height - height - 10;
+                y = Pong.pong.height - height;
             }
         }
     }
