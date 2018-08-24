@@ -33,12 +33,11 @@ public class Pong implements ActionListener, KeyListener {
         jframe.add(renderer);
         jframe.addKeyListener(this);
 
-        start();
-
         timer.start();
     }
 
     public void start() {
+        gameStatus = 2;
         player1 = new Paddle(this, 1);
         player2 = new Paddle(this, 2);
         ball = new Ball(this);
@@ -60,6 +59,8 @@ public class Pong implements ActionListener, KeyListener {
         if(down) {
             player2.move(false);
         }
+
+        ball.update(player1, player2);
     }
 
     public void render(Graphics2D g) {
@@ -90,7 +91,7 @@ public class Pong implements ActionListener, KeyListener {
         if(gameStatus == 1) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 70));
-            g.drawString("PAUSED", width / 2 - 15, height / 2 - 70);
+            g.drawString("PAUSE", width / 2 - 120, height / 2 - 70);
         }
     }
 
@@ -133,11 +134,12 @@ public class Pong implements ActionListener, KeyListener {
 
         if(id == KeyEvent.VK_SHIFT && gameStatus == 0) {
             bot = true;
+            start();
         }
 
         if(id == KeyEvent.VK_SPACE) {
             if(gameStatus == 0) {
-                gameStatus = 2;
+                start();
                 bot = false;
             } else if(gameStatus == 1) {
                 gameStatus = 2;
