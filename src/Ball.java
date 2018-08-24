@@ -12,9 +12,11 @@ public class Ball {
     public int motionY;
 
     public Random random;
+    private Pong pong;
 
     public Ball(Pong pong) {
         this.random = new Random();
+        this.pong = pong;
         this.x = pong.width / 2 - this.width / 2;
         this.y = pong.height / 2 - this.height / 2;
         this.motionY = -2 + random.nextInt(4);
@@ -33,6 +35,12 @@ public class Ball {
     public void update(Paddle paddle1, Paddle paddle2) {
         this.x += motionX;
         this.y += motionY;
+
+        if(this.x < pong.width && this.x + width > 0 && this.y < pong.height && this.y + height > 0) {
+            if(this.y < 0) {
+                this.y = random.nextInt(4);
+            }
+        }
 
         if(checkCollision(paddle1) == 1) {
             this.motionX = 1;
@@ -58,13 +66,12 @@ public class Ball {
     }
 
     public int checkCollision(Paddle paddle) {
-        if(paddle.x > x || paddle.x < x + width) {
-            if(paddle.y > y + height || paddle.y + height < y) {
-                return 1; // hit
-            } else {
-                return 2; // score
-            }
+        if(this.x < paddle.x + paddle.width && this.x + width > paddle.x && this.y < paddle.y + paddle.height && this.y + height > paddle.y) {
+            return 1;
+        } else if((paddle.x > x + width && paddle.paddleNumber == 1) || (paddle.x < x && paddle.paddleNumber == 2)) {
+            return 2;
         }
+
         return 0; // nothing
     }
 
