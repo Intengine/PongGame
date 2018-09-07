@@ -52,12 +52,14 @@ public class Pong implements ActionListener, KeyListener {
             player1.move(false);
         }
 
-        if(up) {
-            player2.move(true);
-        }
+        if(!bot) {
+            if(up) {
+                player2.move(true);
+            }
 
-        if(down) {
-            player2.move(false);
+            if(down) {
+                player2.move(false);
+            }
         }
 
         ball.update(player1, player2);
@@ -135,6 +137,10 @@ public class Pong implements ActionListener, KeyListener {
 
         if(id == KeyEvent.VK_DOWN) {
             down = true;
+        }
+
+        if(id == KeyEvent.VK_ESCAPE && gameStatus == 2) {
+            gameStatus = 0;
         }
 
         if(id == KeyEvent.VK_SHIFT && gameStatus == 0) {
