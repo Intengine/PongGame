@@ -60,6 +60,16 @@ public class Pong implements ActionListener, KeyListener {
             if(down) {
                 player2.move(false);
             }
+        } else {
+            int speed = 15;
+
+            if(player2.y < ball.y) {
+                player2.y += speed;
+            }
+
+            if(player2.y > ball.y) {
+                player2.y -= speed;
+            }
         }
 
         ball.update(player1, player2);
