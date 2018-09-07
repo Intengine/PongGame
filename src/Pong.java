@@ -52,12 +52,24 @@ public class Pong implements ActionListener, KeyListener {
             player1.move(false);
         }
 
-        if(up) {
-            player2.move(true);
-        }
+        if(!bot) {
+            if(up) {
+                player2.move(true);
+            }
 
-        if(down) {
-            player2.move(false);
+            if(down) {
+                player2.move(false);
+            }
+        } else {
+            int speed = 15;
+
+            if(player2.y < ball.y) {
+                player2.y += speed;
+            }
+
+            if(player2.y > ball.y) {
+                player2.y -= speed;
+            }
         }
 
         ball.update(player1, player2);
@@ -121,28 +133,21 @@ public class Pong implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         int id = e.getKeyCode();
 
+        // tour the ifology
         if(id == KeyEvent.VK_W) {
             w = true;
-        }
-
-        if(id == KeyEvent.VK_S) {
+        } else if(id == KeyEvent.VK_S) {
             s = true;
-        }
-
-        if(id == KeyEvent.VK_UP) {
+        } else if(id == KeyEvent.VK_UP) {
             up = true;
-        }
-
-        if(id == KeyEvent.VK_DOWN) {
+        } else if(id == KeyEvent.VK_DOWN) {
             down = true;
-        }
-
-        if(id == KeyEvent.VK_SHIFT && gameStatus == 0) {
+        } else if(id == KeyEvent.VK_ESCAPE && gameStatus == 2) {
+            gameStatus = 0;
+        } else if(id == KeyEvent.VK_SHIFT && gameStatus == 0) {
             bot = true;
             start();
-        }
-
-        if(id == KeyEvent.VK_SPACE) {
+        } else if(id == KeyEvent.VK_SPACE) {
             if(gameStatus == 0) {
                 start();
                 bot = false;
@@ -160,17 +165,11 @@ public class Pong implements ActionListener, KeyListener {
 
         if(id == KeyEvent.VK_W) {
             w = false;
-        }
-
-        if(id == KeyEvent.VK_S) {
+        } else if(id == KeyEvent.VK_S) {
             s = false;
-        }
-
-        if(id == KeyEvent.VK_UP) {
+        } else if(id == KeyEvent.VK_UP) {
             up = false;
-        }
-
-        if(id == KeyEvent.VK_DOWN) {
+        } else if(id == KeyEvent.VK_DOWN) {
             down = false;
         }
     }
