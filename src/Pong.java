@@ -17,7 +17,9 @@ public class Pong implements ActionListener, KeyListener {
 
     public boolean bot = false;
     public boolean w, s, up, down;
+    public boolean selectDifficulty;
 
+    public int botDifficulty;
     public int botMoves;
     public int botCooldown = 0;
 
@@ -85,7 +87,18 @@ public class Pong implements ActionListener, KeyListener {
                     player2.move(true);
                     botMoves++;
                 }
-                botCooldown = 10;
+
+                if(botDifficulty == 0) {
+                    botCooldown = 20;
+                }
+
+                if(botDifficulty == 1) {
+                    botCooldown = 15;
+                }
+
+                if(botDifficulty == 2) {
+                    botCooldown = 10;
+                }
             }
         }
 
@@ -102,9 +115,19 @@ public class Pong implements ActionListener, KeyListener {
             g.setFont(new Font("Arial", 1, 70));
             g.drawString("PONG", width / 2 - 100, 150);
 
+            if(!selectDifficulty) {
+                g.setFont(new Font("Arial", 1, 30));
+                g.drawString("Press SPACE to play", width / 2 - 150, height / 2 - 50);
+                g.drawString("Press SHIFT to play with computer", width / 2 - 250, height / 2 - 10);
+            }
+        }
+
+        if(selectDifficulty) {
+            String string = botDifficulty == 0 ? "Easy" : (botDifficulty == 1 ? "Normal" : "Hard");
+
             g.setFont(new Font("Arial", 1, 30));
-            g.drawString("Press SPACE to play", width / 2 - 150, height / 2 - 50);
-            g.drawString("Press SHIFT to play with computer", width / 2 - 250, height / 2 - 10);
+            g.drawString("Bot difficulty: " + string, width / 2 - 250, height / 2 - 10);
+            g.drawString("Press SPACE to play", width / 2 - 150, height / 2 + 50);
         }
 
         if(gameStatus == 2 || gameStatus == 1) {
@@ -166,13 +189,29 @@ public class Pong implements ActionListener, KeyListener {
             down = true;
         }
 
+        if(id == KeyEvent.VK_RIGHT && selectDifficulty) {
+            if(botDifficulty < 2) {
+                botDifficulty++;
+            } else {
+                botDifficulty = 0;
+            }
+        }
+
+        if(id == KeyEvent.VK_LEFT && selectDifficulty) {
+            if(botDifficulty > 0) {
+                botDifficulty--;
+            } else {
+                botDifficulty = 2;
+            }
+        }
+
         if(id == KeyEvent.VK_ESCAPE && gameStatus == 2) {
             gameStatus = 0;
         }
 
         if(id == KeyEvent.VK_SHIFT && gameStatus == 0) {
             bot = true;
-            start();
+            selectDifficulty = true;
         }
 
         if(id == KeyEvent.VK_SPACE) {
