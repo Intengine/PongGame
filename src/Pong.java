@@ -18,6 +18,9 @@ public class Pong implements ActionListener, KeyListener {
     public boolean bot = false;
     public boolean w, s, up, down;
 
+    public int botMoves;
+    public int botCooldown = 0;
+
     public int width = 700;
     public int height = 700;
 
@@ -64,20 +67,25 @@ public class Pong implements ActionListener, KeyListener {
                 player2.move(false);
             }
         } else {
-            if(player2.y + player2.height / 2 < ball.y) {
-                player2.move(false);
+            if(botCooldown > 0) {
+                botCooldown--;
+
+                if(botCooldown == 0) {
+                    botMoves = 0;
+                }
             }
 
-            if(player2.y + player2.height / 2 > ball.y) {
-                player2.move(true);
-            }
+            if(botMoves < 10) {
+                if(player2.y + player2.height / 2 < ball.y) {
+                    player2.move(false);
+                    botMoves++;
+                }
 
-            if(random.nextInt(50) < 10) {
-                player2.move(true);
-            }
-
-            if(random.nextInt(50) > 40) {
-                player2.move(false);
+                if(player2.y + player2.height / 2 > ball.y) {
+                    player2.move(true);
+                    botMoves++;
+                }
+                botCooldown = 10;
             }
         }
 
