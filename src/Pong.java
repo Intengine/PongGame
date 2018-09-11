@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 public class Pong implements ActionListener, KeyListener {
     public static Pong pong;
     public Renderer renderer;
+    public Random random;
 
     public Paddle player1;
     public Paddle player2;
@@ -22,6 +24,7 @@ public class Pong implements ActionListener, KeyListener {
     public int gameStatus = 0; // 0 - stopped, 1 - paused, 2 - playing
 
     public Pong() {
+        random = new Random();
         Timer timer = new Timer(20, this);
 
         JFrame jframe = new JFrame("Pong");
@@ -61,14 +64,20 @@ public class Pong implements ActionListener, KeyListener {
                 player2.move(false);
             }
         } else {
-            int speed = 15;
-
-            if(player2.y < ball.y) {
-                player2.y += speed;
+            if(player2.y + player2.height / 2 < ball.y) {
+                player2.move(false);
             }
 
-            if(player2.y > ball.y) {
-                player2.y -= speed;
+            if(player2.y + player2.height / 2 > ball.y) {
+                player2.move(true);
+            }
+
+            if(random.nextInt(50) < 10) {
+                player2.move(true);
+            }
+
+            if(random.nextInt(50) > 40) {
+                player2.move(false);
             }
         }
 
