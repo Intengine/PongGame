@@ -27,6 +27,7 @@ public class Pong implements ActionListener, KeyListener {
     public int height = 700;
 
     public int gameStatus = 0; // 0 - stopped, 1 - paused, 2 - playing
+    public int scoreLimit;
 
     public Pong() {
         random = new Random();
@@ -190,18 +191,26 @@ public class Pong implements ActionListener, KeyListener {
         }
 
         if(id == KeyEvent.VK_RIGHT && selectDifficulty) {
-            if(botDifficulty < 2) {
-                botDifficulty++;
-            } else {
-                botDifficulty = 0;
+            if(selectDifficulty) {
+                if(botDifficulty < 2) {
+                    botDifficulty++;
+                } else {
+                    botDifficulty = 0;
+                }
+            } else if(gameStatus == 0) {
+                scoreLimit++;
             }
         }
 
-        if(id == KeyEvent.VK_LEFT && selectDifficulty) {
-            if(botDifficulty > 0) {
-                botDifficulty--;
-            } else {
-                botDifficulty = 2;
+        if(id == KeyEvent.VK_LEFT) {
+            if(selectDifficulty) {
+                if(botDifficulty > 0) {
+                    botDifficulty--;
+                } else {
+                    botDifficulty = 2;
+                }
+            } else if(gameStatus == 0) {
+                scoreLimit--;
             }
         }
 
@@ -216,8 +225,12 @@ public class Pong implements ActionListener, KeyListener {
 
         if(id == KeyEvent.VK_SPACE) {
             if(gameStatus == 0) {
+                if(!selectDifficulty) {
+                    bot = false;
+                } else {
+                    selectDifficulty = false;
+                }
                 start();
-                bot = false;
             } else if(gameStatus == 1) {
                 gameStatus = 2;
             } else if(gameStatus == 2) {
