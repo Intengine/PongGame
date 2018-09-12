@@ -27,7 +27,7 @@ public class Pong implements ActionListener, KeyListener {
     public int height = 700;
 
     public int gameStatus = 0; // 0 - stopped, 1 - paused, 2 - playing
-    public int scoreLimit;
+    public int scoreLimit = 5;
 
     public Pong() {
         random = new Random();
@@ -53,6 +53,14 @@ public class Pong implements ActionListener, KeyListener {
     }
 
     public void update() {
+        if(player1.score >= scoreLimit) {
+
+        }
+
+        if(player2.score >= scoreLimit) {
+            
+        }
+
         if(w) {
             player1.move(true);
         }
@@ -120,6 +128,7 @@ public class Pong implements ActionListener, KeyListener {
                 g.setFont(new Font("Arial", 1, 30));
                 g.drawString("Press SPACE to play", width / 2 - 150, height / 2 - 50);
                 g.drawString("Press SHIFT to play with computer", width / 2 - 250, height / 2 - 10);
+                g.drawString("[Score limit: " + scoreLimit + "]", width / 2 - 100, height / 2 + 55);
             }
         }
 
@@ -127,7 +136,7 @@ public class Pong implements ActionListener, KeyListener {
             String string = botDifficulty == 0 ? "Easy" : (botDifficulty == 1 ? "Normal" : "Hard");
 
             g.setFont(new Font("Arial", 1, 30));
-            g.drawString("Bot difficulty: " + string, width / 2 - 250, height / 2 - 10);
+            g.drawString("[Bot difficulty: " + string + "]", width / 2 - 150, height / 2 - 10);
             g.drawString("Press SPACE to play", width / 2 - 150, height / 2 + 50);
         }
 
@@ -190,7 +199,7 @@ public class Pong implements ActionListener, KeyListener {
             down = true;
         }
 
-        if(id == KeyEvent.VK_RIGHT && selectDifficulty) {
+        if(id == KeyEvent.VK_RIGHT) {
             if(selectDifficulty) {
                 if(botDifficulty < 2) {
                     botDifficulty++;
@@ -209,7 +218,7 @@ public class Pong implements ActionListener, KeyListener {
                 } else {
                     botDifficulty = 2;
                 }
-            } else if(gameStatus == 0) {
+            } else if(gameStatus == 0 && scoreLimit > 0) {
                 scoreLimit--;
             }
         }
