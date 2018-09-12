@@ -26,8 +26,9 @@ public class Pong implements ActionListener, KeyListener {
     public int width = 700;
     public int height = 700;
 
-    public int gameStatus = 0; // 0 - stopped, 1 - paused, 2 - playing
+    public int gameStatus = 0; // 0 - menu, 1 - paused, 2 - playing, 3 - game over
     public int scoreLimit = 5;
+    public int playerWon;
 
     public Pong() {
         random = new Random();
@@ -54,11 +55,13 @@ public class Pong implements ActionListener, KeyListener {
 
     public void update() {
         if(player1.score >= scoreLimit) {
-
+            playerWon = 1;
+            gameStatus = 3;
         }
 
         if(player2.score >= scoreLimit) {
-            
+            playerWon = 2;
+            gameStatus = 3;
         }
 
         if(w) {
@@ -140,7 +143,13 @@ public class Pong implements ActionListener, KeyListener {
             g.drawString("Press SPACE to play", width / 2 - 150, height / 2 + 50);
         }
 
-        if(gameStatus == 2 || gameStatus == 1) {
+        if(gameStatus == 1) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", 1, 70));
+            g.drawString("PAUSE", width / 2 - 120, height / 2 - 70);
+        }
+
+        if(gameStatus == 1 || gameStatus == 2) {
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(5f));
             g.drawLine(width / 2, 0, width / 2, height);
@@ -155,10 +164,15 @@ public class Pong implements ActionListener, KeyListener {
             ball.render(g);
         }
 
-        if(gameStatus == 1) {
+        if(gameStatus == 3) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 70));
-            g.drawString("PAUSE", width / 2 - 120, height / 2 - 70);
+            g.drawString("PONG", width / 2 - 100, 150);
+            g.drawString("Player " + playerWon + " wins!", width / 2 - 250, 250);
+
+            g.setFont(new Font("Arial", 1, 30));
+            g.drawString("Press SPACE to play again", width / 2 - 200, height / 2 - 50);
+            g.drawString("Press ESC for Menu", width / 2 - 150, height / 2 - 10);
         }
     }
 
@@ -173,10 +187,6 @@ public class Pong implements ActionListener, KeyListener {
 
     public static void main(String[] args) {
         pong = new Pong();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
     }
 
     @Override
@@ -218,12 +228,12 @@ public class Pong implements ActionListener, KeyListener {
                 } else {
                     botDifficulty = 2;
                 }
-            } else if(gameStatus == 0 && scoreLimit > 0) {
+            } else if(gameStatus == 0 && scoreLimit > 1) {
                 scoreLimit--;
             }
         }
 
-        if(id == KeyEvent.VK_ESCAPE && gameStatus == 2) {
+        if(id == KeyEvent.VK_ESCAPE && (gameStatus == 2 || gameStatus == 3)) {
             gameStatus = 0;
         }
 
@@ -233,7 +243,7 @@ public class Pong implements ActionListener, KeyListener {
         }
 
         if(id == KeyEvent.VK_SPACE) {
-            if(gameStatus == 0) {
+            if(gameStatus == 0 || gameStatus == 3) {
                 if(!selectDifficulty) {
                     bot = false;
                 } else {
@@ -267,5 +277,9 @@ public class Pong implements ActionListener, KeyListener {
         if(id == KeyEvent.VK_DOWN) {
             down = false;
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 }
